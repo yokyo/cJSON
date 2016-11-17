@@ -1,2 +1,8 @@
 .svn
 test
+*.user
+*.filter
+*Debug*/
+*Release*/
+*.suo
+*.sln
