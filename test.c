@@ -23,12 +23,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "cJSON.h"
+#ifdef USE_UNICODE
 #include <tchar.h>
+#endif
 
 /* Parse text to JSON, then render back to text, and print! */
-void doit(TCHAR *text)
+void doit(PFCHAR *text)
 {
-	TCHAR *out;cJSON *json;
+	PFCHAR *out;cJSON *json;
 	
 	json=cJSON_Parse(text);
 	if (!json) {wprintf(_T("Error before: [%s]\n"),cJSON_GetErrorPtr());}
@@ -61,16 +63,16 @@ void dofile(char *filename)
 }
 
 /* Used by some code below as an example datatype. */
-struct record {const TCHAR *precision;double lat,lon;const TCHAR *address,*city,*state,*zip,*country; };
+struct record {const PFCHAR *precision;double lat,lon;const PFCHAR *address,*city,*state,*zip,*country; };
 
 /* Create a bunch of objects as demonstration. */
 void create_objects()
 {
 	cJSON *root,*fmt,*img,*thm,*fld;
-	TCHAR *out;
+	PFCHAR *out;
 	int i;	/* declare a few. */
 	/* Our "days of the week" array: */
-	const TCHAR *strings[7]={_T("Sunday"),_T("Monday"),_T("Tuesday"),_T("Wednesday"),_T("Thursday"),_T("Friday"),_T("Saturday")};
+	const PFCHAR *strings[7]={_T("Sunday"),_T("Monday"),_T("Tuesday"),_T("Wednesday"),_T("Thursday"),_T("Friday"),_T("Saturday")};
 	/* Our matrix: */
 	int numbers[3][3]={{0,-1,0},{1,0,0},{0,0,1}};
 	/* Our "gallery" item: */
@@ -145,12 +147,12 @@ void create_objects()
 
 int main (int argc, const char * argv[]) {
 	/* a bunch of json: */
-	TCHAR text1[]=_T("{\n\"name\": \"Jack (\\\"Bee\\\") Nimble\", \n\"format\": {\"type\":       \"rect\", \n\"width\":      1920, \n\"height\":     1080, \n\"interlace\":  false,\"frame rate\": 24\n}\n}");
-	TCHAR text2[]=_T("[\"Sunday\", \"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\"]");
-	TCHAR text3[]=_T("[\n    [0, -1, 0],\n    [1, 0, 0],\n    [0, 0, 1]\n	]\n");
-	TCHAR text4[]=_T("{\n		\"Image\": {\n			\"Width\":  800,\n			\"Height\": 600,\n			\"Title\":  \"View from 15th Floor\",\n			\"Thumbnail\": {\n				\"Url\":    \"http:/*www.example.com/image/481989943\",\n				\"Height\": 125,\n				\"Width\":  \"100\"\n			},\n			\"IDs\": [116, 943, 234, 38793]\n		}\n	}");
-	TCHAR text5[]=_T("[\n	 {\n	 \"precision\": \"zip\",\n	 \"Latitude\":  37.7668,\n	 \"Longitude\": -122.3959,\n	 \"Address\":   \"\",\n	 \"City\":      \"SAN FRANCISCO\",\n	 \"State\":     \"CA\",\n	 \"Zip\":       \"94107\",\n	 \"Country\":   \"US\"\n	 },\n	 {\n	 \"precision\": \"zip\",\n	 \"Latitude\":  37.371991,\n	 \"Longitude\": -122.026020,\n	 \"Address\":   \"\",\n	 \"City\":      \"SUNNYVALE\",\n	 \"State\":     \"CA\",\n	 \"Zip\":       \"94085\",\n	 \"Country\":   \"US\"\n	 }\n	 ]");
-	TCHAR text6[]=_T("{\"id\":\"11821\",\"title\":\"\\uacf5\\ud56d \\uac00\\ub294 \\uae38\",\"artist\":\"My Aunt Mary\",\"album\":\"Just Pop\",\"mp3\":\"http:\/\/emo.luoo.net\/low\/luoo\/radio601\/01.mp3\",\"poster\":\"http:\/\/img3.luoo.net\/pics\/albums\/6514\/cover.jpg_580x580.jpg\",\"poster_small\":\"http:\/\/img3.luoo.net\/pics\/albums\/6514\/cover.jpg_60x60.jpg\",\"is_fav\":0}");
+	PFCHAR text1[]=_T("{\n\"name\": \"Jack (\\\"Bee\\\") Nimble\", \n\"format\": {\"type\":       \"rect\", \n\"width\":      1920, \n\"height\":     1080, \n\"interlace\":  false,\"frame rate\": 24\n}\n}");
+	PFCHAR text2[]=_T("[\"Sunday\", \"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\"]");
+	PFCHAR text3[]=_T("[\n    [0, -1, 0],\n    [1, 0, 0],\n    [0, 0, 1]\n	]\n");
+	PFCHAR text4[]=_T("{\n		\"Image\": {\n			\"Width\":  800,\n			\"Height\": 600,\n			\"Title\":  \"View from 15th Floor\",\n			\"Thumbnail\": {\n				\"Url\":    \"http:/*www.example.com/image/481989943\",\n				\"Height\": 125,\n				\"Width\":  \"100\"\n			},\n			\"IDs\": [116, 943, 234, 38793]\n		}\n	}");
+	PFCHAR text5[]=_T("[\n	 {\n	 \"precision\": \"zip\",\n	 \"Latitude\":  37.7668,\n	 \"Longitude\": -122.3959,\n	 \"Address\":   \"\",\n	 \"City\":      \"SAN FRANCISCO\",\n	 \"State\":     \"CA\",\n	 \"Zip\":       \"94107\",\n	 \"Country\":   \"US\"\n	 },\n	 {\n	 \"precision\": \"zip\",\n	 \"Latitude\":  37.371991,\n	 \"Longitude\": -122.026020,\n	 \"Address\":   \"\",\n	 \"City\":      \"SUNNYVALE\",\n	 \"State\":     \"CA\",\n	 \"Zip\":       \"94085\",\n	 \"Country\":   \"US\"\n	 }\n	 ]");
+	PFCHAR text6[]=_T("{\"id\":\"11821\",\"title\":\"\\uacf5\\ud56d \\uac00\\ub294 \\uae38\",\"artist\":\"My Aunt Mary\",\"album\":\"Just Pop\",\"mp3\":\"http://emo.luoo.net/low/luoo/radio601/01.mp3\",\"poster\":\"http://img3.luoo.net/pics/albums/6514/cover.jpg_580x580.jpg\",\"poster_small\":\"http://img3.luoo.net/pics/albums/6514/cover.jpg_60x60.jpg\",\"is_fav\":0}");
 	/* Process each json textblock by parsing, then rebuilding: */
 	doit(text6);
 	doit(text1);

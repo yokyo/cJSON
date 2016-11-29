@@ -6,3 +6,6 @@ test
 *Release*/
 *.suo
 *.sln
+*.o
+*.a
+*.so

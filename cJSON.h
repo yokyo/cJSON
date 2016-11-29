@@ -23,7 +23,7 @@
 #ifndef cJSON__h
 #define cJSON__h
 
-#define USE_UNICODE
+/*#define USE_UNICODE*/
 
 #ifdef __cplusplus
 extern "C"
@@ -44,9 +44,11 @@ extern "C"
 #ifdef USE_UNICODE
 	#define PFCHAR wchar_t
 	#define UPFCHAR wchar_t
+  #define _T L
 #else 
 	#define PFCHAR char
 	#define UPFCHAR unsigned char
+  #define _T
 #endif
 
 /* The cJSON structure: */
